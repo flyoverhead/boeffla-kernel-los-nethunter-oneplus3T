@@ -218,19 +218,28 @@ static ssize_t proximity_state_set(struct device *dev,
 }
 
 extern bool virtual_key_enable;
+extern bool s1302_is_keypad_stopped(void);
 static ssize_t report_home_set(struct device *dev,
 	struct device_attribute *attr, const char *buf, size_t count)
 {
 	struct fpc1020_data *f = dev_get_drvdata(dev);
+	bool ignore_keypad;
+
+	if (s1302_is_keypad_stopped() || virtual_key_enable)
+		ignore_keypad = true;
+	else
+		ignore_keypad = false;
 
 	if (!memcmp(buf, "down", sizeof("down"))) {
-		if (!virtual_key_enable) {
+		if(!ignore_keypad){
 			input_report_key(f->input_dev, KEY_HOME, 1);
 			input_sync(f->input_dev);
 		}
 	} else if (!memcmp(buf, "up", sizeof("up"))) {
-		input_report_key(f->input_dev, KEY_HOME, 0);
-		input_sync(f->input_dev);
+		if(!ignore_keypad){
+			input_report_key(f->input_dev, KEY_HOME, 0);
+			input_sync(f->input_dev);
+		}
 	} else {
 		return -EINVAL;
 	}
