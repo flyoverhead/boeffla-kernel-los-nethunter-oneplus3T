@@ -236,7 +236,7 @@ static ssize_t report_home_set(struct device *dev,
 			input_sync(f->input_dev);
 		}
 	} else if (!memcmp(buf, "up", sizeof("up"))) {
-		if(!ignore_keypad){
+		if(!virtual_key_enable){
 			input_report_key(f->input_dev, KEY_HOME, 0);
 			input_sync(f->input_dev);
 		}
