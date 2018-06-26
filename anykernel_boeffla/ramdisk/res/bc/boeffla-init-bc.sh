@@ -26,8 +26,9 @@
 	CWM_RESET_ZIP="boeffla-config-reset-v5.zip"
 	INITD_ENABLER="/data/.boeffla/enable-initd"
 	PERMISSIVE_ENABLER="/data/.boeffla/enable-permissive"
-	DISABLE_DEFAULT_ZRAM="/data/.boeffla/disable-default-zram"
 	DOZE_DISABLER="/data/.boeffla/disable-doze"
+	BOEFFLA_INIT_DONE="/dev/bk_init_done"
+	BOEFFLA_STARTCONFIG_DONE2="/dev/bk_startconfig_done"
 
 # If not yet existing, create a boeffla-kernel-data folder on sdcard 
 # which is used for many purposes,
@@ -131,6 +132,11 @@
 		echo $(date) "No startup configuration found"  >> $BOEFFLA_LOGFILE
 	fi
 
+	# temporary for migration
+	if [ -f $BOEFFLA_STARTCONFIG_DONE ]; then
+		cp $BOEFFLA_STARTCONFIG_DONE $BOEFFLA_STARTCONFIG_DONE2
+	fi
+
 # Turn off debugging for certain modules
 	echo 0 > /sys/module/kernel/parameters/initcall_debug
 	echo 0 > /sys/module/lowmemorykiller/parameters/debug_level
@@ -188,3 +194,7 @@
 	echo $(date) "Loaded startconfig was:" >> $BOEFFLA_LOGFILE
 	cat $BOEFFLA_STARTCONFIG >> $BOEFFLA_LOGFILE
 	echo $(date) End of kernel startup logfile >> $BOEFFLA_LOGFILE
+
+# Init done
+	echo $(date) > $BOEFFLA_INIT_DONE
+	chmod 666 $BOEFFLA_INIT_DONE
