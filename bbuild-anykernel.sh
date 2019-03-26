@@ -10,9 +10,9 @@
 # Parameters to be configured manually
 #######################################
 
-BOEFFLA_VERSION="3.0-test-Lineage15.1-OnePlus3T"
+BOEFFLA_VERSION="3.0-stable-Lineage15.1-OnePlus3T"
 
-TOOLCHAIN="/opt/toolchains/aarch64-linux-android-4.9-20150123/bin/aarch64-linux-android-"
+TOOLCHAIN="./ubertc-6.x/bin/aarch64-linux-android-"
 ARCHITECTURE=arm64
 COMPILER_FLAGS_KERNEL="-Wno-maybe-uninitialized"
 COMPILER_FLAGS_MODULE="-Wno-maybe-uninitialized"
@@ -24,7 +24,7 @@ DTBTOOL_CMD=""
 MODULES_IN_SYSTEM="y"
 OUTPUT_FOLDER=""
 
-DEFCONFIG="boeffla_defconfig"
+DEFCONFIG="flypatriot_defconfig"
 DEFCONFIG_VARIANT=""
 
 KERNEL_NAME="Boeffla-Kernel"
@@ -100,7 +100,7 @@ step0_copy_code()
 
 	# Replace version information in mkcompile_h with the one from x-settings.sh
 	sed "s/\`echo \$LINUX_COMPILE_BY | \$UTS_TRUNCATE\`/$KERNEL_NAME-$BOEFFLA_VERSION-$BOEFFLA_DATE/g" -i $BUILD_PATH/scripts/mkcompile_h
-	sed "s/\`echo \$LINUX_COMPILE_HOST | \$UTS_TRUNCATE\`/andip71/g" -i $BUILD_PATH/scripts/mkcompile_h
+	sed "s/\`echo \$LINUX_COMPILE_HOST | \$UTS_TRUNCATE\`/flypatriot/g" -i $BUILD_PATH/scripts/mkcompile_h
 }
 
 step1_make_clean()
