@@ -19,6 +19,7 @@
 #include <linux/init.h>
 #include <linux/kernel.h>
 #include <linux/list.h>
+#include <linux/mm.h>
 #include <linux/proc_fs.h>
 #include <linux/profile.h>
 #include <linux/rtmutex.h>
@@ -29,7 +30,7 @@
 #include <linux/cpufreq.h>
 
 #define UID_HASH_BITS	10
-DECLARE_HASHTABLE(hash_table, UID_HASH_BITS);
+static DECLARE_HASHTABLE(hash_table, UID_HASH_BITS);
 
 static DEFINE_RT_MUTEX(uid_lock);
 static struct proc_dir_entry *cpu_parent;
